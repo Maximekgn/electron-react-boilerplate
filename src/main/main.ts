@@ -14,7 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-
+import express from 'express';
+const expressApp = express();
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -134,4 +135,13 @@ app
       if (mainWindow === null) createWindow();
     });
   })
+  .then(() => {
+    startServer();
+  })
   .catch(console.log);
+
+const startServer = () => {
+  expressApp.listen(3000, () => {
+    console.log('Server is running on port 3000');
+  });
+};
